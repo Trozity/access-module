@@ -39,15 +39,19 @@ resource "azuread_group" "root_mgmt_contributor" {
 
 
 resource "azurerm_role_assignment" "mgmt_contributor_assignment" {
+  for_each = var.contributor_groups_enabled ? { for index, _ in azuread_group.root_mgmt_contributor : index => true } : {}
+
   scope              = data.azurerm_management_group.root-mgmt.id
   role_definition_id = data.azurerm_role_definition.contributor.id
-  principal_id       = azuread_group.root_mgmt_contributor.object_id
-   lifecycle {
+  principal_id       = azuread_group.root_mgmt_contributor[each.key].object_id
+
+  lifecycle {
     ignore_changes = [
       role_definition_id,
     ]
   }
 }
+
 
 
 
