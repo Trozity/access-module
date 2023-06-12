@@ -37,19 +37,14 @@ resource "azuread_group" "all_subscriptions_contributor" {
   security_enabled    = true
 }
 
-resource "azurerm_role_assignment" "all_subscription_contributor" {
-  for_each = var.contributor_groups_enabled ? { for sub in data.azurerm_subscriptions.all.subscriptions : sub.id => sub } : {}
+resource "azurerm_role_assignment" "root_management_group_contributor" {
+  role_definition_name = "Contributor"
+  principal_id         = azuread_group.all_subscriptions_contributor[0].id
+  scope                = data.azurerm_management_group.root_management_group.id
 
-  role_definition_id = data.azurerm_role_definition.contributor.id
-  principal_id       = azuread_group.all_subscriptions_contributor[0].id
-  scope              = each.value.id
-  # Add lifecycle since tf forces replacement each run
-  lifecycle {
-    ignore_changes = [
-      role_definition_id,
-    ]
-  }
+  
 }
+
 
 
 
