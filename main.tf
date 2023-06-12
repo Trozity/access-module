@@ -3,7 +3,7 @@
 # Access group  #
 ###################
 resource "azuread_group" "root_mgmt_readers" {
-  display_name     = "root-reader-mgmt"
+  display_name     = "root-mgmt-reader"
   description      = "Gives reader access on management level"
   security_enabled = true
 }
