@@ -37,12 +37,16 @@ resource "azuread_group" "all_subscriptions_contributor" {
   security_enabled    = true
 }
 
-resource "azurerm_role_assignment" "root_management_group_contributor" {
-  role_definition_name = "Contributor"
-  principal_id         = azuread_group.all_subscriptions_contributor[0].id
-  scope                = data.azurerm_management_group.root_management_group.id
 
-  
+resource "azurerm_role_assignment" "mgmt_contributor_assignment" {
+  scope              = data.azurerm_management_group.root-mgmt.id
+  role_definition_id = data.azurerm_role_definition.contributor.id
+  principal_id       = azuread_group.root_mgmt_contributor.object_id
+   lifecycle {
+    ignore_changes = [
+      role_definition_id,
+    ]
+  }
 }
 
 
