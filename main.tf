@@ -69,9 +69,9 @@ resource "azurerm_role_assignment" "subscription_contributor_role" {
   principal_id       = azuread_group.subscription_contributor[each.key].id
   scope              = each.value.id
   # Add lifecycle since tf forces replacement each run
-   /*lifecycle {
+   lifecycle {
     ignore_changes = [
       role_definition_id,
     ]
-  } */
+  } 
 }
