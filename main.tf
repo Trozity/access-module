@@ -3,9 +3,7 @@
 # Access group  #
 ###################
 resource "azuread_group" "root_mgmt_readers" {
-
-
-  display_name     = "all-reader-mgmt"
+  display_name     = "Global Reader"
   description      = "Gives reader access on management level"
   security_enabled = true
 }
@@ -32,7 +30,7 @@ resource "azurerm_role_assignment" "mgmt_reader_assignment" {
 #Creates AD group that will give contributor access to on management group
 resource "azuread_group" "root_mgmt_contributor" {
   count               = var.contributor_groups_enabled ? 1 : 0
-  display_name        = "all-subscriptions-contributor-access"
+  display_name        = "Global Contributor"
   description         = var.contributor_group_description
   security_enabled    = true
 }
@@ -71,9 +69,9 @@ resource "azurerm_role_assignment" "subscription_contributor_role" {
   principal_id       = azuread_group.subscription_contributor[each.key].id
   scope              = each.value.id
   # Add lifecycle since tf forces replacement each run
-  lifecycle {
+   /*lifecycle {
     ignore_changes = [
       role_definition_id,
     ]
-  }
+  } */
 }
