@@ -30,7 +30,7 @@ resource "azurerm_role_assignment" "mgmt_reader_assignment" {
 
 
 #Creates AD group that will give contributor access to on management group
-resource "azuread_group" "all_subscriptions_contributor" {
+resource "azuread_group" "root_mgmt_contributor" {
   count               = var.contributor_groups_enabled ? 1 : 0
   display_name        = "all-subscriptions-contributor-access"
   description         = var.contributor_group_description
