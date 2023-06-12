@@ -56,7 +56,7 @@ resource "azurerm_role_assignment" "all_subscription_contributor" {
 resource "azuread_group" "subscription_contributor" {
   for_each = var.contributor_groups_enabled ? { for sub in data.azurerm_subscriptions.all.subscriptions : sub.id => sub } : {}
 
-  display_name     = "{contributor}-${replace(each.value.display_name, " ", "-")}"
+  display_name     = "contributor-${replace(each.value.display_name, " ", "-")}"
   description      = var.contributor_group_description
   security_enabled = true
 }
