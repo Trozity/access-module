@@ -3,7 +3,7 @@
 # Access group  #
 ###################
 resource "azuread_group" "root_mgmt_readers" {
-  display_name     = "Global Reader"
+  display_name     = "root-reader-mgmt"
   description      = "Gives reader access on management level"
   security_enabled = true
 }
@@ -30,7 +30,7 @@ resource "azurerm_role_assignment" "mgmt_reader_assignment" {
 #Creates AD group that will give contributor access to on management group
 resource "azuread_group" "root_mgmt_contributor" {
   count               = var.contributor_groups_enabled ? 1 : 0
-  display_name        = "Global Contributor"
+  display_name        = "root-mgmt-contributor"
   description         = var.contributor_group_description
   security_enabled    = true
 }
